@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CamKeeper — Quiet utility concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f6f4ef;      /* warm off-white */
+    --card:#fffefb;
+    --ink:#1c1b19;        /* near-black, warm */
+    --sub:#5f5b54;        /* muted body */
+    --faint:#8f8a80;
+    --line:#e3dfd6;
+    --accent:#3a5a45;     /* single muted forest-green accent */
+    --accent-soft:#eef1ec;
+    --amber:#b6893f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',system-ui,sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1040px;margin:0 auto;padding:0 32px}
+  a{color:inherit;text-decoration:none}
+  .mono{font-family:'IBM Plex Mono',monospace}
+  .serif{font-family:'Fraunces',Georgia,serif}
+
+  /* status top bar */
+  .topbar{background:var(--accent);color:#fff;text-align:center;font-size:13.5px;letter-spacing:.01em;padding:8px 16px;font-family:'IBM Plex Sans',sans-serif}
+  .topbar strong{font-weight:600}
+
+  /* status pill */
+  .pill{display:inline-flex;align-items:center;gap:7px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--amber);border:1px solid #e7dcc6;background:#fbf6ec;padding:4px 11px;border-radius:20px}
+  .pill .blip{width:6px;height:6px;border-radius:50%;background:var(--amber);display:inline-block}
+
+  /* beta signup */
+  .beta{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:52px 44px;text-align:center}
+  .beta h2{font-family:'Fraunces',serif;font-weight:500;font-size:34px;letter-spacing:-.015em}
+  .beta p.sub{color:var(--sub);margin:14px auto 0;max-width:56ch;font-size:16px}
+  .signup{margin:32px auto 0;max-width:440px;display:flex;gap:10px}
+  .signup input{flex:1;font-family:'IBM Plex Sans',sans-serif;font-size:15px;padding:12px 15px;border:1px solid var(--line);border-radius:8px;background:#fbfaf6;color:var(--ink)}
+  .signup input:focus{outline:none;border-color:var(--accent)}
+  .signup button{font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:15px;background:var(--accent);color:#fff;border:none;padding:12px 20px;border-radius:8px;cursor:pointer;white-space:nowrap}
+  .signup button:hover{background:#2f4a39}
+  .beta .fine{margin-top:18px;font-size:12.5px;color:var(--faint);font-family:'IBM Plex Mono',monospace}
+  .beta .freeline{margin-top:26px;padding-top:24px;border-top:1px solid var(--line);color:var(--sub);font-size:15px;max-width:54ch;margin-left:auto;margin-right:auto}
+  .beta .freeline strong{color:var(--ink);font-weight:600}
+
+  /* nav */
+  nav{border-bottom:1px solid var(--line)}
+  .navbar{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:24px;letter-spacing:-.01em;display:flex;align-items:center;gap:10px}
+  .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);display:inline-block;margin-bottom:2px}
+  .navlinks{display:flex;gap:34px;align-items:center;font-size:14.5px;color:var(--sub)}
+  .navlinks a:hover{color:var(--ink)}
+  .btn{
+    font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:14.5px;
+    background:var(--accent);color:#fff;padding:9px 18px;border-radius:7px;transition:.15s;border:1px solid transparent}
+  .btn:hover{background:#2f4a39}
+  .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--ink)}
+
+  /* hero */
+  header.hero{padding:104px 0 70px}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:26px}
+  .hero h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(42px,6.4vw,74px);line-height:1.02;letter-spacing:-.02em;max-width:15ch}
+  .hero h1 em{font-style:italic;color:var(--accent)}
+  .hero p.lede{margin-top:28px;font-size:19px;color:var(--sub);max-width:56ch}
+  .hero .cta{margin-top:38px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .hero .meta{margin-top:20px;font-size:13.5px;color:var(--faint);font-family:'IBM Plex Mono',monospace}
+
+  /* app window mock */
+  .mock{margin:66px auto 0;max-width:760px;border:1px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden;box-shadow:0 24px 60px -32px rgba(28,27,25,.28)}
+  .mock .bar{display:flex;align-items:center;justify-content:space-between;padding:0 0 0 16px;border-bottom:1px solid var(--line);background:#faf8f3}
+  .mock .bar .title{font-size:13px;color:var(--faint);font-family:'IBM Plex Mono',monospace;padding:12px 0}
+  .mock .bar .wc{display:flex;align-items:stretch}
+  .mock .bar .wc span{width:40px;height:42px;display:flex;align-items:center;justify-content:center;color:#9a958a}
+  .mock .bar .wc .close:hover{background:#d94b3d;color:#fff}
+  .mock .bar .wc .min:hover,.mock .bar .wc .max:hover{background:#ece8df}
+  .mock .body{display:grid;grid-template-columns:200px 1fr;min-height:280px}
+  .mock .side{border-right:1px solid var(--line);padding:16px 12px;background:#fbfaf6}
+  .mock .side .lbl{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:6px 8px 10px}
+  .mock .car{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:7px;font-size:14px;color:var(--sub)}
+  .mock .car.active{background:var(--accent-soft);color:var(--ink);font-weight:500}
+  .mock .car .tick{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+  .mock .car:not(.active) .tick{background:#d6d0c4}
+  .mock .main{padding:22px 24px}
+  .mock .main .now{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-family:'IBM Plex Mono',monospace}
+  .mock .main h3{font-family:'Fraunces',serif;font-weight:500;font-size:26px;margin:6px 0 20px}
+  .row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-top:1px solid var(--line);font-size:14.5px}
+  .row:first-of-type{border-top:none}
+  .row .k{color:var(--sub)}
+  .row .v{font-family:'IBM Plex Mono',monospace;color:var(--ink)}
+  .status{margin-top:20px;display:inline-flex;align-items:center;gap:8px;font-size:13.5px;color:var(--accent);background:var(--accent-soft);padding:7px 13px;border-radius:20px}
+  .status .d{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+
+  /* section scaffolding */
+  section{padding:78px 0}
+  .sec-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-bottom:16px}
+  h2.sec{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(29px,4vw,42px);letter-spacing:-.015em;line-height:1.08;max-width:20ch}
+  .divider{border-top:1px solid var(--line)}
+
+  /* problem */
+  .problem{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+  .problem p{color:var(--sub);font-size:16.5px;margin-top:18px}
+  .inifile{background:var(--ink);color:#e9e6df;border-radius:10px;padding:20px 22px;font-family:'IBM Plex Mono',monospace;font-size:13.5px;line-height:1.9}
+  .inifile .cmt{color:#8a857a}
+  .inifile .hl{color:#e6c483}
+  .inifile .note{display:block;margin-top:12px;color:#9a958a;font-size:12.5px;border-top:1px solid #33322e;padding-top:12px}
+
+  /* features */
+  .feat{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:44px}
+  .feat .cell{background:var(--card);padding:28px 24px}
+  .feat .n{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--accent)}
+  .feat h4{font-family:'Fraunces',serif;font-weight:500;font-size:20px;margin:12px 0 8px}
+  .feat p{color:var(--sub);font-size:14.5px}
+
+  /* steps */
+  .steps{margin-top:44px;display:grid;gap:0}
+  .step{display:grid;grid-template-columns:52px 1fr;gap:22px;padding:26px 0;border-top:1px solid var(--line)}
+  .step:last-child{border-bottom:1px solid var(--line)}
+  .step .num{font-family:'Fraunces',serif;font-style:italic;font-size:30px;color:var(--accent);line-height:1}
+  .step h4{font-size:17px;font-weight:600;margin-bottom:5px}
+  .step p{color:var(--sub);font-size:15px;max-width:60ch}
+
+  /* download */
+  .download{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:52px 44px;text-align:center;margin-top:8px}
+  .download h2{font-family:'Fraunces',serif;font-weight:500;font-size:34px;letter-spacing:-.015em}
+  .download p{color:var(--sub);margin:14px auto 0;max-width:52ch;font-size:16px}
+  .download .cta{margin-top:30px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .download .fine{margin-top:22px;font-size:12.5px;color:var(--faint);font-family:'IBM Plex Mono',monospace}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);padding:44px 0 60px;margin-top:20px}
+  .foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-start}
+  .foot .brand{font-size:20px}
+  .foot .disc{max-width:60ch;font-size:12.5px;color:var(--faint);line-height:1.7}
+  .foot .cols{display:flex;gap:56px}
+  .foot .col a{display:block;color:var(--sub);font-size:14px;padding:4px 0}
+  .foot .col a:hover{color:var(--ink)}
+  .foot .col .h{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+  .copyright{margin-top:30px;font-size:12.5px;color:var(--faint)}
+
+  @media(max-width:760px){
+    .problem{grid-template-columns:1fr;gap:32px}
+    .feat{grid-template-columns:1fr}
+    .mock .body{grid-template-columns:1fr}
+    .mock .side{border-right:none;border-bottom:1px solid var(--line);display:flex;gap:6px;overflow-x:auto}
+    .mock .side .lbl{display:none}
+    .navlinks{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar"><strong>Under development</strong> — CamKeeper is in private beta testing. Public release coming soon.</div>
+
+<nav>
+  <div class="wrap navbar">
+    <div class="brand">CamKeeper<span class="dot"></span></div>
+    <div class="navlinks">
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#beta">Beta access</a>
+      <a href="#" style="color:var(--faint)">GitHub</a>
+    </div>
+    <a href="#beta" class="btn">Request beta access</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="pill"><span class="blip"></span> Coming soon · In private beta</div>
+    <h1 class="serif" style="margin-top:22px">One <em>saved view</em> for every car you drive.</h1>
+    <p class="lede">iRacing keeps a single set of view settings shared across your whole garage. Switch from a formula car to a GT and you re-tune FOV, seat height, and mirrors from scratch. CamKeeper remembers each car's view and puts it back for you.</p>
+    <div class="cta">
+      <a href="#beta" class="btn">Request beta access</a>
+      <a href="#how" class="btn ghost">See how it works</a>
+    </div>
+    <div class="meta">Free · Windows 10 / 11 · Runs quietly in your tray</div>
+
+    <!-- app window mock -->
+    <div class="mock">
+      <div class="bar">
+        <span class="title">CamKeeper</span>
+        <div class="wc">
+          <span class="min"><svg width="11" height="11" viewBox="0 0 11 11"><path d="M1 6h9" stroke="currentColor" stroke-width="1"/></svg></span>
+          <span class="max"><svg width="11" height="11" viewBox="0 0 11 11"><rect x="1.5" y="1.5" width="8" height="8" fill="none" stroke="currentColor" stroke-width="1"/></svg></span>
+          <span class="close"><svg width="11" height="11" viewBox="0 0 11 11"><path d="M1.5 1.5l8 8M9.5 1.5l-8 8" stroke="currentColor" stroke-width="1"/></svg></span>
+        </div>
+      </div>
+      <div class="body">
+        <div class="side">
+          <div class="lbl">Your cars</div>
+          <div class="car active"><span class="tick"></span> FIA F4</div>
+          <div class="car"><span class="tick"></span> Mazda MX-5</div>
+          <div class="car"><span class="tick"></span> Ferrari 296 GT3</div>
+          <div class="car"><span class="tick"></span> Porsche 963</div>
+        </div>
+        <div class="main">
+          <div class="now">Detected now</div>
+          <h3 class="serif">FIA Formula 4</h3>
+          <div class="row"><span class="k">Driving FOV</span><span class="v">204</span></div>
+          <div class="row"><span class="k">Driver height</span><span class="v">+0.018</span></div>
+          <div class="row"><span class="k">Shift horizon</span><span class="v">0.36</span></div>
+          <div class="row"><span class="k">Virtual mirror FOV</span><span class="v">92</span></div>
+          <div class="status"><span class="d"></span> Profile applied — ready for your next session</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="divider"></div>
+
+<section id="problem">
+  <div class="wrap problem">
+    <div>
+      <div class="sec-eyebrow">The problem</div>
+      <h2 class="sec">iRacing stores your view once, not once per car.</h2>
+      <p>Every car reads from the same handful of values in <span class="mono">app.ini</span>. There is no per-car memory built in. So the FOV that feels right in an open-wheeler is wrong the moment you load a sports car — and back again when you switch series.</p>
+      <p>CamKeeper is the per-car layer iRacing doesn't have. It watches which car you're in and keeps the right numbers ready to load.</p>
+    </div>
+    <div class="inifile">
+      <span class="cmt">; iRacing app.ini — [View]</span><br>
+      <span class="hl">drivingCamFOV</span>=204 <span class="cmt">; one value…</span><br>
+      driverHeightAdj=0.018<br>
+      DrivingVanishY=0.36<br>
+      virtualMirrorFOV=92
+      <span class="note">…shared by every car in your garage. Change series, and you overwrite what worked for the last one.</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="features">
+  <div class="wrap">
+    <div class="sec-eyebrow">What it does</div>
+    <h2 class="sec">Small, local, and out of the way.</h2>
+    <div class="feat">
+      <div class="cell"><div class="n">01</div><h4 class="serif">Detects your car</h4><p>Reads the live car from the official iRacing SDK — the same telemetry channel Crew Chief and SimHub use.</p></div>
+      <div class="cell"><div class="n">02</div><h4 class="serif">Saves each view</h4><p>Store FOV, driver height, shift horizon, and virtual mirror FOV as a named profile tied to that car.</p></div>
+      <div class="cell"><div class="n">03</div><h4 class="serif">Puts it back</h4><p>Select a car, apply, and your saved view loads with your next session — no re-tuning from scratch.</p></div>
+      <div class="cell"><div class="n">04</div><h4 class="serif">Edits offline</h4><p>A full editor that works with iRacing closed. Fine-tune values or copy a setup from one car to another.</p></div>
+      <div class="cell"><div class="n">05</div><h4 class="serif">Backs itself up</h4><p>Every save keeps timestamped backups. Export your whole library to a single file, or restore any car.</p></div>
+      <div class="cell"><div class="n">06</div><h4 class="serif">Stays yours</h4><p>Everything lives locally on your PC. No account, nothing uploaded, no server in the loop.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="how">
+  <div class="wrap">
+    <div class="sec-eyebrow">How it works</div>
+    <h2 class="sec">Set it once. It handles the rest.</h2>
+    <div class="steps">
+      <div class="step"><div class="num serif">i</div><div><h4>Tune a car the way you like it</h4><p>Get FOV, seat height, horizon, and mirror right for one car in iRacing, the way you already do.</p></div></div>
+      <div class="step"><div class="num serif">ii</div><div><h4>Save it as that car's profile</h4><p>CamKeeper reads the current values and stores them under that car. Repeat for each car you run.</p></div></div>
+      <div class="step"><div class="num serif">iii</div><div><h4>Pick your car before you race</h4><p>Choose the car you're about to drive and apply. Your saved view is written, ready to load with the session.</p></div></div>
+      <div class="step"><div class="num serif">iv</div><div><h4>Race with the right view</h4><p>Join the session and the correct view is already there — no scrambling with the adjust overlay on the grid.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="beta">
+  <div class="wrap">
+    <div class="beta">
+      <div class="pill" style="margin-bottom:20px"><span class="blip"></span> Not yet public</div>
+      <h2 class="serif">Get on the beta list.</h2>
+      <p class="sub">CamKeeper is still in private testing while the core is proven out on real rigs. Leave your email and you'll get an invitation code and a download link when the next round of beta spots opens up.</p>
+      <form class="signup" onsubmit="return false;">
+        <input type="email" placeholder="you@email.com" aria-label="Email address">
+        <button type="submit">Request access</button>
+      </form>
+      <div class="fine">No spam. One email when your spot is ready — nothing else.</div>
+      <p class="freeline"><strong>Free, and staying free.</strong> No purchase, no subscription, no account. CamKeeper runs entirely on your own PC — nothing is uploaded. If it saves you time, donations are welcome, but never required.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <div class="brand">CamKeeper<span class="dot"></span></div>
+        <p class="disc" style="margin-top:14px">CamKeeper is an independent third-party utility. It is not affiliated with, endorsed by, or sponsored by iRacing.com Motorsport Simulations, LLC. "iRacing" is a trademark of its respective owner.</p>
+      </div>
+      <div class="cols">
+        <div class="col">
+          <div class="h">Product</div>
+          <a href="#how">How it works</a>
+          <a href="#features">Features</a>
+          <a href="#beta">Beta access</a>
+        </div>
+        <div class="col">
+          <div class="h">Project</div>
+          <a href="#">GitHub</a>
+          <a href="#">Release notes</a>
+          <a href="#">License</a>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">© 2026 José Otero · doing business as CamKeeper</div>
+  </div>
+</footer>
+
+</body>
+</html>
