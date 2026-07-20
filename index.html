@@ -280,11 +280,12 @@
       <div class="pill" style="margin-bottom:20px"><span class="blip"></span> Not yet public</div>
       <h2 class="serif">Get on the beta list.</h2>
       <p class="sub">CamKeeper is still in private testing while the core is proven out on real rigs. Leave your email and you'll get an invitation code and a download link when the next round of beta spots opens up.</p>
-      <form class="signup" onsubmit="return false;">
-        <input type="email" placeholder="you@email.com" aria-label="Email address">
+      <form class="signup" id="betaForm">
+        <input type="email" id="betaEmail" name="email" placeholder="you@email.com" aria-label="Email address" required>
+        <input type="text" name="website" id="betaHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
         <button type="submit">Request access</button>
       </form>
-      <div class="fine">No spam. One email when your spot is ready — nothing else.</div>
+      <div class="fine" id="betaMsg">No spam. One email when your spot is ready — nothing else.</div>
       <p class="freeline"><strong>Free, and staying free.</strong> No purchase, no subscription, no account. CamKeeper runs entirely on your own PC — nothing is uploaded. If it saves you time, donations are welcome, but never required.</p>
     </div>
   </div>
@@ -315,6 +316,43 @@
     <div class="copyright">© 2026 José Otero · doing business as CamKeeper</div>
   </div>
 </footer>
+
+<script>
+(function(){
+  var form = document.getElementById('betaForm');
+  if(!form) return;
+  var msg = document.getElementById('betaMsg');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var email = (document.getElementById('betaEmail').value || '').trim();
+    var hp = document.getElementById('betaHp').value;
+    var btn = form.querySelector('button');
+    if(!email){ return; }
+    btn.disabled = true; btn.textContent = 'Sending…';
+    fetch('/api/signup', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ email: email, website: hp })
+    }).then(function(r){ return r.json(); }).then(function(d){
+      if (d && d.ok) {
+        form.style.display = 'none';
+        msg.textContent = d.already
+          ? "You're already on the list — we'll be in touch."
+          : "You're on the list. We'll email you when a beta spot opens.";
+        msg.style.color = 'var(--accent)';
+      } else {
+        btn.disabled = false; btn.textContent = 'Request access';
+        msg.textContent = (d && d.error) ? d.error : 'Something went wrong. Try again.';
+        msg.style.color = '#b6893f';
+      }
+    }).catch(function(){
+      btn.disabled = false; btn.textContent = 'Request access';
+      msg.textContent = 'Network error. Please try again.';
+      msg.style.color = '#b6893f';
+    });
+  });
+})();
+</script>
 
 </body>
 </html>
