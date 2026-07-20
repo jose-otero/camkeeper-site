@@ -1,6 +1,6 @@
 // Cloudflare Pages Function — POST /api/signup
-// Stores a beta-signup email in D1 (binding "DB") and sends a
-// confirmation email via Resend (secret "RESEND_API_KEY").
+// Verifies Turnstile, stores a beta-signup email in D1 (binding "DB"),
+// and sends a confirmation email via Resend (secret "RESEND_API_KEY").
 
 export async function onRequestPost({ request, env }) {
   try {
@@ -9,6 +9,16 @@ export async function onRequestPost({ request, env }) {
 
     // Honeypot — bots fill this hidden field; humans never do.
     if (data.website) return json({ ok: true });
+
+    // Turnstile bot check.
+    if (env.TURNSTILE_SECRET_KEY) {
+      const ok = await verifyTurnstile(
+        env.TURNSTILE_SECRET_KEY,
+        data.cfToken,
+        request.headers.get("CF-Connecting-IP")
+      );
+      if (!ok) return json({ ok: false, error: "Verification failed. Please try again." }, 400);
+    }
 
     const email = String(data.email || "").trim().toLowerCase();
     const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -38,6 +48,21 @@ export async function onRequestPost({ request, env }) {
   } catch (e) {
     return json({ ok: false, error: "Something went wrong. Please try again." }, 500);
   }
+}
+
+async function verifyTurnstile(secret, token, ip) {
+  if (!token) return false;
+  const form = new URLSearchParams();
+  form.append("secret", secret);
+  form.append("response", token);
+  if (ip) form.append("remoteip", ip);
+  const resp = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+    method: "POST",
+    body: form,
+  });
+  if (!resp.ok) return false;
+  const out = await resp.json().catch(() => null);
+  return !!(out && out.success);
 }
 
 async function sendConfirmation(apiKey, to) {
