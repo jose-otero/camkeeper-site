@@ -6,7 +6,7 @@
 <title>CamKeeper — Quiet utility concept</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Cookie&display=swap" rel="stylesheet">
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 <style>
   :root{
@@ -55,6 +55,10 @@
   .beta .fine{margin-top:18px;font-size:12.5px;color:var(--faint);font-family:'IBM Plex Mono',monospace}
   .beta .freeline{margin-top:26px;padding-top:24px;border-top:1px solid var(--line);color:var(--sub);font-size:15px;max-width:54ch;margin-left:auto;margin-right:auto}
   .beta .freeline strong{color:var(--ink);font-weight:600}
+  .bmcbtn{display:inline-flex;align-items:center;gap:11px;margin-top:22px;background:#FFDD00;color:#000;padding:11px 22px;border-radius:12px;text-decoration:none;box-shadow:0 1px 0 rgba(0,0,0,.15);transition:.15s}
+  .bmcbtn:hover{background:#ffe533}
+  .bmcbtn .cup{width:26px;height:26px;display:block}
+  .bmcbtn .txt{font-family:'Cookie','Segoe Script','Brush Script MT',cursive;font-size:26px;line-height:1;color:#000;position:relative;top:1px}
 
   /* nav */
   nav{border-bottom:1px solid var(--line)}
@@ -63,6 +67,10 @@
   .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--accent);display:inline-block;margin-bottom:2px}
   .navlinks{display:flex;gap:34px;align-items:center;font-size:14.5px;color:var(--sub)}
   .navlinks a:hover{color:var(--ink)}
+  .navbmc{display:inline-flex;align-items:center;gap:7px;background:#FFDD00;padding:6px 14px;border-radius:8px;box-shadow:0 1px 0 rgba(0,0,0,.12)}
+  .navbmc svg{width:18px;height:18px;display:block}
+  .navbmc .txt{font-family:'Cookie','Segoe Script','Brush Script MT',cursive;font-size:20px;line-height:1;color:#000;position:relative;top:1px;white-space:nowrap}
+  .navbmc:hover{background:#ffe533}
   .btn{
     font-family:'IBM Plex Sans',sans-serif;font-weight:500;font-size:14.5px;
     background:var(--accent);color:#fff;padding:9px 18px;border-radius:7px;transition:.15s;border:1px solid transparent}
@@ -172,7 +180,14 @@
       <a href="#how">How it works</a>
       <a href="#features">Features</a>
       <a href="#beta">Beta access</a>
-      <a href="#" style="color:var(--faint)">GitHub</a>
+      <a href="https://buymeacoffee.com/camkeeper" target="_blank" rel="noopener" class="navbmc" aria-label="Buy me a coffee" title="Buy me a coffee">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M4 8 h13 v5.5 a5.5 5.5 0 0 1 -5.5 5.5 h-2 a5.5 5.5 0 0 1 -5.5 -5.5 z" fill="#000"/>
+          <path d="M17 9 h2.2 a2.8 2.8 0 0 1 0 5.6 H17" fill="none" stroke="#000" stroke-width="2"/>
+          <path d="M7 3 q1.4 1.4 0 2.8 M11 3 q1.4 1.4 0 2.8 M15 3 q1.4 1.4 0 2.8" stroke="#000" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        </svg>
+        <span class="txt">Buy me a coffee</span>
+      </a>
     </div>
     <a href="#beta" class="btn">Request beta access</a>
   </div>
@@ -291,7 +306,15 @@
         <div class="cf-turnstile" data-sitekey="0x4AAAAAAD6FABzvDaOyqYi3" data-size="flexible"></div>
       </form>
       <div class="fine" id="betaMsg">No spam. One email when your spot is ready — nothing else.</div>
-      <p class="freeline"><strong>Free, and staying free.</strong> No purchase, no subscription, no account. CamKeeper runs entirely on your own PC — nothing is uploaded. If it saves you time, donations are welcome, but never required.</p>
+      <p class="freeline"><strong>Free, and staying free.</strong> No purchase, no subscription, no account. CamKeeper runs entirely on your own PC — nothing is uploaded. If it saves you time, a coffee helps keep it going — but it's never required.</p>
+      <a class="bmcbtn" href="https://www.buymeacoffee.com/camkeeper" target="_blank" rel="noopener">
+        <svg class="cup" viewBox="0 0 24 24" fill="none">
+          <path d="M4 8 h13 v5.5 a5.5 5.5 0 0 1 -5.5 5.5 h-2 a5.5 5.5 0 0 1 -5.5 -5.5 z" fill="#000"/>
+          <path d="M17 9 h2.2 a2.8 2.8 0 0 1 0 5.6 H17" fill="none" stroke="#000" stroke-width="2"/>
+          <path d="M7 3 q1.4 1.4 0 2.8 M11 3 q1.4 1.4 0 2.8 M15 3 q1.4 1.4 0 2.8" stroke="#000" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        </svg>
+        <span class="txt">Buy me a coffee</span>
+      </a>
     </div>
   </div>
 </section>
@@ -312,13 +335,13 @@
         </div>
         <div class="col">
           <div class="h">Project</div>
-          <a href="#">GitHub</a>
           <a href="#">Release notes</a>
           <a href="#">License</a>
+          <a href="https://buymeacoffee.com/camkeeper" target="_blank" rel="noopener">Buy me a coffee</a>
         </div>
       </div>
     </div>
-    <div class="copyright">© 2026 José Otero · doing business as CamKeeper</div>
+    <div class="copyright">© 2026 · CamKeeper</div>
   </div>
 </footer>
 
