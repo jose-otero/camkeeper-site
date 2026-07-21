@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CamKeeper — Feature requests</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPHJlY3QgeD0iMjQiIHk9IjI0IiB3aWR0aD0iNDY0IiBoZWlnaHQ9IjQ2NCIgcng9IjExMiIgZmlsbD0iI2Y2ZjRlZiIgc3Ryb2tlPSIjZTNkZmQ2IiBzdHJva2Utd2lkdGg9IjQiLz4KICA8ZyBmaWxsPSJub25lIiBzdHJva2U9IiMxYzFiMTkiIHN0cm9rZS13aWR0aD0iMjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CiAgICA8cGF0aCBkPSJNMTUwIDE5NiBWMTUwIEgxOTYiLz4KICAgIDxwYXRoIGQ9Ik0zMTYgMTUwIEgzNjIgVjE5NiIvPgogICAgPHBhdGggZD0iTTE1MCAzMTYgVjM2MiBIMTk2Ii8+CiAgICA8cGF0aCBkPSJNMzE2IDM2MiBIMzYyIFYzMTYiLz4KICA8L2c+CiAgPGxpbmUgeDE9IjE2NCIgeTE9IjI4NiIgeDI9IjM0OCIgeTI9IjI4NiIgc3Ryb2tlPSIjMWMxYjE5IiBzdHJva2Utd2lkdGg9IjE2IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTgiIHI9IjMwIiBmaWxsPSIjM2E1YTQ1Ii8+Cjwvc3ZnPgo=">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+<style>
+  :root{--paper:#f6f4ef;--card:#fffefb;--ink:#1c1b19;--sub:#5f5b54;--faint:#8f8a80;--line:#e3dfd6;--accent:#3a5a45;--accent-soft:#eef1ec;--amber:#b6893f}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',system-ui,sans-serif;line-height:1.6}
+  .wrap{max-width:820px;margin:0 auto;padding:0 24px}
+  a{color:inherit;text-decoration:none}
+  .serif{font-family:'Fraunces',Georgia,serif}
+  nav{border-bottom:1px solid var(--line)}
+  .navbar{display:flex;align-items:center;justify-content:space-between;height:70px}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:22px;display:flex;align-items:center;gap:9px}
+  .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;margin-bottom:2px}
+  .back{font-size:14px;color:var(--sub)}
+  .back:hover{color:var(--ink)}
+  header.top{padding:56px 0 24px}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+  h1{font-family:'Fraunces',serif;font-weight:500;font-size:40px;letter-spacing:-.02em}
+  .lede{margin-top:14px;color:var(--sub);font-size:16.5px;max-width:60ch}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 26px 22px;margin:26px 0}
+  .card h2{font-family:'Fraunces',serif;font-weight:500;font-size:22px;margin-bottom:4px}
+  .card .hint{color:var(--faint);font-size:13.5px;margin-bottom:16px}
+  label{display:block;font-size:13px;color:var(--sub);font-weight:600;margin:12px 0 6px}
+  input[type=text],textarea{width:100%;font:inherit;font-size:15px;color:var(--ink);background:#fbfaf6;border:1px solid var(--line);border-radius:8px;padding:11px 13px}
+  input[type=text]:focus,textarea:focus{outline:none;border-color:var(--accent)}
+  textarea{resize:vertical;min-height:96px}
+  .submit{margin-top:16px;font:inherit;font-size:15px;font-weight:600;color:#fff;background:var(--accent);border:none;border-radius:8px;padding:12px 22px;cursor:pointer}
+  .submit:disabled{opacity:.6;cursor:default}
+  .msg{margin-top:12px;font-size:13.5px;font-family:'IBM Plex Mono',monospace;color:var(--faint)}
+  .board-head{display:flex;align-items:baseline;justify-content:space-between;margin:38px 0 8px}
+  .board-head h2{font-family:'Fraunces',serif;font-weight:500;font-size:26px}
+  .board-head .count{font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--faint)}
+  .item{display:flex;gap:16px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:12px}
+  .vote{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:52px;border:1px solid var(--line);border-radius:10px;padding:8px 0;cursor:pointer;background:#fbfaf6;user-select:none}
+  .vote:hover{border-color:var(--accent)}
+  .vote.voted{background:var(--accent-soft);border-color:var(--accent);cursor:default}
+  .vote .arw{color:var(--accent);font-size:15px;line-height:1}
+  .vote .n{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:16px;color:var(--ink)}
+  .item .body h3{font-size:16.5px;font-weight:600;margin-bottom:3px}
+  .item .body p{color:var(--sub);font-size:14.5px;white-space:pre-wrap}
+  .empty{color:var(--faint);font-size:14.5px;padding:20px 2px}
+  footer{border-top:1px solid var(--line);margin-top:40px;padding:30px 0 50px;color:var(--faint);font-size:12.5px}
+  .disc{max-width:70ch;line-height:1.7;margin-bottom:10px}
+</style>
+</head>
+<body>
+<nav><div class="wrap navbar">
+  <div class="brand">CamKeeper<span class="dot"></span></div>
+  <a class="back" href="/">← Back to site</a>
+</div></nav>
+
+<header class="top"><div class="wrap">
+  <div class="eyebrow">Feature requests</div>
+  <h1 class="serif">Help shape what's next.</h1>
+  <p class="lede">Suggest a feature and vote on what others have proposed. Upvotes help prioritize — they're a strong signal, not a promise (some ideas may be limited by iRacing's rules or what's technically possible). New suggestions are reviewed before they appear.</p>
+</div></header>
+
+<div class="wrap">
+  <div class="card">
+    <h2>Suggest a feature</h2>
+    <div class="hint">Reviewed before it goes on the board — this keeps spam and off-topic posts out.</div>
+    <form id="fForm">
+      <label for="fTitle">Title</label>
+      <input type="text" id="fTitle" name="title" maxlength="120" placeholder="Short summary of the idea" required>
+      <label for="fBody">Details (optional)</label>
+      <textarea id="fBody" name="body" maxlength="2000" placeholder="What would it do, and why would it help?"></textarea>
+      <input type="text" name="website" id="fHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAAD6FABzvDaOyqYi3" data-size="flexible" style="margin-top:14px"></div>
+      <button type="submit" class="submit" id="fSubmit">Submit request</button>
+      <div class="msg" id="fMsg"></div>
+    </form>
+  </div>
+
+  <div class="board-head"><h2 class="serif">On the board</h2><span class="count" id="bCount"></span></div>
+  <div id="board"><div class="empty">Loading…</div></div>
+</div>
+
+<footer><div class="wrap">
+  <p class="disc">CamKeeper is an independent third-party utility. It is not affiliated with, endorsed by, or sponsored by iRacing.com Motorsport Simulations, LLC.</p>
+  © 2026 · CamKeeper
+</div></footer>
+
+<script>
+(function(){
+  var SITEKEY='0x4AAAAAAD6FABzvDaOyqYi3';
+  // anonymous voter id + voted set (real site page, localStorage is fine here)
+  function getVoter(){ var v=localStorage.getItem('ck_voter'); if(!v){ v=(Math.random().toString(36).slice(2))+Date.now().toString(36); localStorage.setItem('ck_voter',v); } return v; }
+  function voted(){ try{ return JSON.parse(localStorage.getItem('ck_voted')||'[]'); }catch(e){ return []; } }
+  function markVoted(id){ var a=voted(); if(a.indexOf(id)<0){ a.push(id); localStorage.setItem('ck_voted',JSON.stringify(a)); } }
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  var board=document.getElementById('board');
+  var bCount=document.getElementById('bCount');
+
+  function render(items){
+    if(!items.length){ board.innerHTML='<div class="empty">No approved requests yet — be the first to suggest one.</div>'; bCount.textContent=''; return; }
+    bCount.textContent=items.length+' idea'+(items.length===1?'':'s');
+    var mine=voted();
+    board.innerHTML=items.map(function(it){
+      var has=mine.indexOf(it.id)>=0;
+      var bodyHtml=it.body ? '<p>'+esc(it.body)+'</p>' : '';
+      return '<div class="item">'+
+        '<div class="vote'+(has?' voted':'')+'" data-id="'+it.id+'" '+(has?'':'role="button" tabindex="0"')+'>'+
+          '<span class="arw">▲</span><span class="n" id="n'+it.id+'">'+(it.votes||0)+'</span>'+
+        '</div>'+
+        '<div class="body"><h3>'+esc(it.title)+'</h3>'+bodyHtml+'</div>'+
+      '</div>';
+    }).join('');
+    Array.prototype.forEach.call(board.querySelectorAll('.vote:not(.voted)'), function(el){
+      el.addEventListener('click', function(){ doVote(el); });
+    });
+  }
+
+  function doVote(el){
+    var id=parseInt(el.getAttribute('data-id'),10);
+    el.classList.add('voted');
+    fetch('/api/feature-vote',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({id:id,voter:getVoter()})})
+      .then(function(r){return r.json();}).then(function(d){
+        if(d&&d.ok){ var n=document.getElementById('n'+id); if(n) n.textContent=d.votes; markVoted(id); }
+        else { el.classList.remove('voted'); }
+      }).catch(function(){ el.classList.remove('voted'); });
+  }
+
+  function load(){
+    fetch('/api/features').then(function(r){return r.json();}).then(function(d){ render((d&&d.items)||[]); })
+      .catch(function(){ board.innerHTML='<div class="empty">Couldn\'t load the board. Please refresh.</div>'; });
+  }
+  load();
+
+  var form=document.getElementById('fForm'), msg=document.getElementById('fMsg');
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var title=(document.getElementById('fTitle').value||'').trim();
+    var body=(document.getElementById('fBody').value||'').trim();
+    var hp=document.getElementById('fHp').value;
+    var btn=document.getElementById('fSubmit');
+    if(title.length<3){ msg.textContent='Please add a short title.'; msg.style.color='#b6893f'; return; }
+    var tokEl=form.querySelector('[name="cf-turnstile-response"]');
+    var token=tokEl?tokEl.value:'';
+    if(!token){ msg.textContent='Give the verification a moment to finish, then try again.'; msg.style.color='#b6893f'; return; }
+    btn.disabled=true; btn.textContent='Sending…';
+    fetch('/api/feature',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({title:title,body:body,website:hp,cfToken:token})})
+      .then(function(r){return r.json();}).then(function(d){
+        if(d&&d.ok){ form.reset(); btn.disabled=false; btn.textContent='Submit request';
+          msg.style.color='var(--accent)'; msg.textContent='Thanks! Your request was submitted and will appear once it\'s reviewed.';
+          if(window.turnstile){ try{turnstile.reset();}catch(err){} }
+        } else {
+          btn.disabled=false; btn.textContent='Submit request';
+          msg.style.color='#b6893f'; msg.textContent=(d&&d.error)?d.error:'Something went wrong. Try again.';
+          if(window.turnstile){ try{turnstile.reset();}catch(err){} }
+        }
+      }).catch(function(){
+        btn.disabled=false; btn.textContent='Submit request';
+        msg.style.color='#b6893f'; msg.textContent='Network error. Please try again.';
+      });
+  });
+})();
+</script>
+</body>
+</html>

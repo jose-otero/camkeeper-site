@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CamKeeper — Admin</title>
+<meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#f6f4ef;--card:#fffefb;--ink:#1c1b19;--sub:#5f5b54;--faint:#8f8a80;--line:#e3dfd6;--accent:#3a5a45;--red:#b03a2e}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',system-ui,sans-serif;line-height:1.6}
+  .wrap{max-width:760px;margin:0 auto;padding:40px 24px 60px}
+  h1{font-family:'Fraunces',serif;font-weight:500;font-size:30px;margin-bottom:4px}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+  .gate{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px 26px;max-width:420px;margin-top:20px}
+  label{display:block;font-size:13px;color:var(--sub);font-weight:600;margin-bottom:6px}
+  input{width:100%;font:inherit;font-size:15px;background:#fbfaf6;border:1px solid var(--line);border-radius:8px;padding:11px 13px}
+  input:focus{outline:none;border-color:var(--accent)}
+  button{font:inherit;font-size:14.5px;font-weight:600;border:none;border-radius:8px;padding:10px 18px;cursor:pointer}
+  .primary{background:var(--accent);color:#fff;margin-top:14px}
+  .sec-h{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:30px 0 12px}
+  .item{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 18px;margin-bottom:12px;display:flex;gap:16px;align-items:flex-start}
+  .item .meta{flex:1}
+  .item .t{font-weight:600;font-size:16px}
+  .item .b{color:var(--sub);font-size:14px;margin-top:6px;white-space:pre-wrap}
+  .item .sub{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--faint);margin-top:8px}
+  .acts{display:flex;flex-direction:column;gap:8px;flex:0 0 auto}
+  .approve{background:var(--accent);color:#fff}
+  .delete{background:#fff;color:var(--red);border:1px solid #e6cfc9}
+  .acts button{padding:8px 14px;font-size:13px}
+  .msg{font-size:13.5px;color:var(--sub);margin-top:8px;font-family:'IBM Plex Mono',monospace}
+  .empty{color:var(--faint);font-size:14px;padding:6px 2px 16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">CamKeeper · admin</div>
+  <h1 class="serif">Feature requests</h1>
+
+  <div id="gate" class="gate">
+    <label for="key">Admin key</label>
+    <input type="password" id="key" placeholder="Paste your admin key" autocomplete="off">
+    <button class="primary" id="go">Open dashboard</button>
+    <div class="msg" id="gmsg"></div>
+  </div>
+
+  <div id="dash" style="display:none">
+    <div class="sec-h">Pending review</div>
+    <div id="pending"></div>
+    <div class="sec-h">Approved (live on the board)</div>
+    <div id="approved"></div>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY='';
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  var gate=document.getElementById('gate'), dash=document.getElementById('dash'), gmsg=document.getElementById('gmsg');
+
+  document.getElementById('go').addEventListener('click',open);
+  document.getElementById('key').addEventListener('keydown',function(e){ if(e.key==='Enter') open(); });
+
+  function open(){
+    KEY=(document.getElementById('key').value||'').trim();
+    if(!KEY){ gmsg.textContent='Enter your key.'; return; }
+    gmsg.textContent='Checking…';
+    load(function(ok){ if(ok){ gate.style.display='none'; dash.style.display='block'; } else { gmsg.style.color='#b03a2e'; gmsg.textContent='Key not accepted.'; } });
+  }
+
+  function load(cb){
+    fetch('/api/admin-list?key='+encodeURIComponent(KEY)).then(function(r){ if(r.status===401){ if(cb)cb(false); return null; } return r.json(); })
+      .then(function(d){ if(!d){ return; } if(!d.ok){ if(cb)cb(false); return; } render(d.items||[]); if(cb)cb(true); })
+      .catch(function(){ if(cb)cb(false); });
+  }
+
+  function itemHtml(it){
+    var when=(it.created_at||'').slice(0,10);
+    return '<div class="item" data-id="'+it.id+'">'+
+      '<div class="meta"><div class="t">'+esc(it.title)+'</div>'+(it.body?'<div class="b">'+esc(it.body)+'</div>':'')+
+      '<div class="sub">#'+it.id+' · '+when+' · '+(it.votes||0)+' vote'+((it.votes||0)===1?'':'s')+'</div></div>'+
+      '<div class="acts">'+(it.status==='pending'?'<button class="approve">Approve</button>':'')+'<button class="delete">Delete</button></div>'+
+    '</div>';
+  }
+
+  function render(items){
+    var pend=items.filter(function(i){return i.status==='pending';});
+    var appr=items.filter(function(i){return i.status==='approved';});
+    document.getElementById('pending').innerHTML = pend.length ? pend.map(itemHtml).join('') : '<div class="empty">Nothing waiting. 🎉</div>';
+    document.getElementById('approved').innerHTML = appr.length ? appr.map(itemHtml).join('') : '<div class="empty">Nothing approved yet.</div>';
+    bind();
+  }
+
+  function bind(){
+    Array.prototype.forEach.call(document.querySelectorAll('.item'),function(el){
+      var id=parseInt(el.getAttribute('data-id'),10);
+      var ap=el.querySelector('.approve'), del=el.querySelector('.delete');
+      if(ap) ap.addEventListener('click',function(){ act(id,'approve',el); });
+      if(del) del.addEventListener('click',function(){ if(confirm('Delete this request permanently?')) act(id,'delete',el); });
+    });
+  }
+
+  function act(id,action,el){
+    Array.prototype.forEach.call(el.querySelectorAll('button'),function(b){ b.disabled=true; });
+    fetch('/api/feature-moderate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({id:id,action:action,adminKey:KEY})})
+      .then(function(r){return r.json();}).then(function(d){ if(d&&d.ok){ load(); } else { alert((d&&d.error)||'Failed.'); Array.prototype.forEach.call(el.querySelectorAll('button'),function(b){ b.disabled=false; }); } })
+      .catch(function(){ Array.prototype.forEach.call(el.querySelectorAll('button'),function(b){ b.disabled=false; }); });
+  }
+})();
+</script>
+</body>
+</html>

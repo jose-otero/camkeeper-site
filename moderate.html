@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CamKeeper — Review request</title>
+<meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#f6f4ef;--card:#fffefb;--ink:#1c1b19;--sub:#5f5b54;--faint:#8f8a80;--line:#e3dfd6;--accent:#3a5a45;--red:#b03a2e}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',system-ui,sans-serif;line-height:1.6;display:flex;min-height:100vh;align-items:center;justify-content:center;padding:24px}
+  .box{background:var(--card);border:1px solid var(--line);border-radius:14px;max-width:520px;width:100%;padding:30px 32px}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
+  h1{font-family:'Fraunces',serif;font-weight:500;font-size:23px;margin-bottom:4px}
+  .status-tag{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:12px;margin-bottom:16px}
+  .st-pending{background:#fbf3e4;color:#b6893f}
+  .st-approved{background:#eef1ec;color:var(--accent)}
+  .req{border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:6px 0 20px}
+  .req .t{font-weight:600;font-size:16.5px}
+  .req .b{color:var(--sub);font-size:14.5px;margin-top:8px;white-space:pre-wrap}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  button{font:inherit;font-size:15px;font-weight:600;border:none;border-radius:8px;padding:11px 20px;cursor:pointer}
+  .approve{background:var(--accent);color:#fff}
+  .delete{background:#fff;color:var(--red);border:1px solid #e6cfc9}
+  button:disabled{opacity:.55;cursor:default}
+  .msg{margin-top:16px;font-size:14px;color:var(--sub)}
+  .muted{color:var(--faint);font-size:13.5px}
+</style>
+</head>
+<body>
+<div class="box" id="box"><div class="muted">Loading…</div></div>
+<script>
+(function(){
+  var box=document.getElementById('box');
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  var qs=new URLSearchParams(location.search);
+  var id=parseInt(qs.get('id')||'0',10), token=qs.get('token')||'';
+  if(!id||!token){ box.innerHTML='<div class="eyebrow">Review request</div><h1 class="serif">Invalid link</h1><p class="muted">This link is missing information. Use the link from your email.</p>'; return; }
+
+  fetch('/api/feature-moderate?id='+id+'&token='+encodeURIComponent(token))
+    .then(function(r){return r.json();}).then(function(d){
+      if(!d||!d.ok||!d.item){ box.innerHTML='<div class="eyebrow">Review request</div><h1 class="serif">Link not valid</h1><p class="muted">It may have already been handled, or the link is incorrect.</p>'; return; }
+      var it=d.item;
+      var tag = it.status==='approved' ? '<span class="status-tag st-approved">Approved</span>' : '<span class="status-tag st-pending">Pending</span>';
+      box.innerHTML='<div class="eyebrow">Feature request · review</div>'+tag+
+        '<div class="req"><div class="t">'+esc(it.title)+'</div>'+(it.body?'<div class="b">'+esc(it.body)+'</div>':'')+'</div>'+
+        '<div class="row">'+
+          (it.status==='approved'?'':'<button class="approve" id="ap">Approve — make it public</button>')+
+          '<button class="delete" id="del">Delete</button>'+
+        '</div><div class="msg" id="m"></div>';
+      var m=document.getElementById('m');
+      function act(action){
+        var ap=document.getElementById('ap'), del=document.getElementById('del');
+        if(ap) ap.disabled=true; if(del) del.disabled=true;
+        m.textContent='Working…';
+        fetch('/api/feature-moderate',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({id:id,token:token,action:action})})
+          .then(function(r){return r.json();}).then(function(d){
+            if(d&&d.ok){ m.style.color='var(--accent)'; m.textContent = action==='approve' ? 'Approved — it\'s now on the public board.' : 'Deleted.'; document.querySelector('.row').style.display='none'; }
+            else { m.style.color='#b03a2e'; m.textContent=(d&&d.error)?d.error:'Something went wrong.'; if(ap) ap.disabled=false; if(del) del.disabled=false; }
+          }).catch(function(){ m.style.color='#b03a2e'; m.textContent='Network error.'; if(ap) ap.disabled=false; if(del) del.disabled=false; });
+      }
+      var apb=document.getElementById('ap'); if(apb) apb.addEventListener('click',function(){act('approve');});
+      document.getElementById('del').addEventListener('click',function(){act('delete');});
+    }).catch(function(){ box.innerHTML='<h1 class="serif">Network error</h1><p class="muted">Please refresh.</p>'; });
+})();
+</script>
+</body>
+</html>
