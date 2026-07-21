@@ -214,7 +214,7 @@
   <div class="wrap">
     <div class="pill"><span class="blip"></span> Open beta · Free download</div>
     <h1 class="serif" style="margin-top:22px">One <em>saved view</em> for every car you drive.</h1>
-    <p class="lede">iRacing keeps a single set of view settings shared across your whole garage. Switch from a formula car to a GT and you re-tune FOV, seat height, and mirrors from scratch. CamKeeper remembers each car's view and puts it back for you.</p>
+    <p class="lede">iRacing keeps a single set of view settings shared across your whole garage. Jump between a formula car, a GT, a stock car — any category — and you re-tune FOV, seat height, and mirrors from scratch. CamKeeper remembers each car's view and puts it back for you.</p>
     <div class="cta">
       <a href="https://github.com/jose-otero/camkeeper-site/releases/latest/download/CamKeeper.exe" class="btn">Download for Windows</a>
       <a href="#how" class="btn ghost">See how it works</a>
@@ -282,8 +282,8 @@
     <div>
       <div class="sec-eyebrow">The problem</div>
       <h2 class="sec">iRacing stores your view once, not once per car.</h2>
-      <p>Every car reads from the same handful of values in <span class="mono">app.ini</span>. There is no per-car memory built in. So the FOV that feels right in an open-wheeler is wrong the moment you load a sports car — and back again when you switch series.</p>
-      <p>CamKeeper is the per-car layer iRacing doesn't have. It watches which car you're in and keeps the right numbers ready to load.</p>
+      <p>Every car reads from the same handful of values in <span class="mono">app.ini</span>. There is no per-car memory built in. So the FOV that feels right in an open-wheeler is wrong the moment you jump to a GT, a prototype, or any other category — and wrong again every time you switch.</p>
+      <p>CamKeeper is the per-car layer iRacing doesn't have. It sees which car you're in and keeps each car's numbers saved and a click away.</p>
     </div>
     <div class="inifile">
       <span class="cmt">; iRacing app.ini — [View]</span><br>
@@ -304,7 +304,7 @@
     <h2 class="sec">Small, local, and out of the way.</h2>
     <div class="feat">
       <div class="cell"><div class="n">01</div><h4 class="serif">Detects your car</h4><p>Reads the live car from the official iRacing SDK — the same telemetry channel Crew Chief and SimHub use.</p></div>
-      <div class="cell"><div class="n">02</div><h4 class="serif">Saves each view</h4><p>Store FOV, driver height, shift horizon, and virtual mirror FOV as a named profile tied to that car.</p></div>
+      <div class="cell"><div class="n">02</div><h4 class="serif">Saves each view</h4><p>Store FOV, driver height, shift horizon, and virtual mirror FOV as a profile tied to that car — save it yourself, or let auto-save capture it when you leave a session.</p></div>
       <div class="cell"><div class="n">03</div><h4 class="serif">Puts it back</h4><p>Select a car, apply, and your saved view loads with your next session — no re-tuning from scratch.</p></div>
       <div class="cell"><div class="n">04</div><h4 class="serif">Edits offline</h4><p>A full editor that works with iRacing closed. Fine-tune values or copy a setup from one car to another.</p></div>
       <div class="cell"><div class="n">05</div><h4 class="serif">Backs itself up</h4><p>Every save keeps timestamped backups. Export your whole library to a single file, or restore any car.</p></div>
@@ -318,7 +318,7 @@
 <section id="how">
   <div class="wrap">
     <div class="sec-eyebrow">How it works</div>
-    <h2 class="sec">Set it once. It handles the rest.</h2>
+    <h2 class="sec">Set it up once. A click before you race.</h2>
     <div class="steps">
       <div class="step"><div class="num serif">i</div><div><h4>Tune a car the way you like it</h4><p>Get FOV, seat height, horizon, and mirror right for one car in iRacing, the way you already do.</p></div></div>
       <div class="step"><div class="num serif">ii</div><div><h4>Save it as that car's profile</h4><p>CamKeeper reads the current values and stores them under that car. Repeat for each car you run.</p></div></div>

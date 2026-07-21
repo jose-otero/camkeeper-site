@@ -63,7 +63,7 @@
   <div class="wrap">
     <div class="eyebrow">User Manual</div>
     <h1>Getting the most out of CamKeeper.</h1>
-    <p>CamKeeper saves your iRacing driving view — FOV, driver height, shift horizon, and virtual mirror — separately for every car, and puts the right one back so you never re-tune when you switch series.</p>
+    <p>CamKeeper saves your iRacing driving view — FOV, driver height, shift horizon, and virtual mirror — separately for every car. Pick a car's profile before you race and it loads in with the session, so you never re-tune from scratch when you switch cars.</p>
   </div>
 </header>
 
@@ -80,7 +80,7 @@
       <li><a href="#editor">Editing offline</a></li>
       <li><a href="#backups">Backups & restore</a></li>
       <li><a href="#portability">Import & export</a></li>
-      <li><a href="#toggles">Auto-save & auto-apply</a></li>
+      <li><a href="#toggles">Auto-save</a></li>
       <li><a href="#startup">Start with Windows</a></li>
       <li><a href="#updates">Updating</a></li>
       <li><a href="#uninstall">Uninstalling</a></li>
@@ -112,7 +112,7 @@
 
   <section id="apply">
     <h2><span class="num">5</span>Applying a profile</h2>
-    <p>Pick the car you're about to drive and choose <strong>Apply</strong>. CamKeeper writes that car's saved values into <span class="mono">app.ini</span>, ready for your next session.</p>
+    <p>Pick the car you're about to drive and choose <strong>Apply saved profile</strong> — or just double-click the car in your list. CamKeeper writes that car's saved values into <span class="mono">app.ini</span> and shows a green <em>"profile applied"</em> banner, ready for your next session.</p>
     <div class="callout"><strong>Important — how iRacing reads settings:</strong> iRacing only loads <span class="mono">app.ini</span> when a session starts, and ignores changes made while you're already on track. So apply your profile <em>before</em> you join the session (while you're in the iRacing UI). It then loads with the car. Applying mid-session has no effect until the next session.</div>
   </section>
 
@@ -132,12 +132,10 @@
   </section>
 
   <section id="toggles">
-    <h2><span class="num">9</span>Auto-save & auto-apply</h2>
-    <p>Two optional toggles, both off by default:</p>
-    <ul>
-      <li><strong>Auto-apply on car change</strong> — CamKeeper applies the saved profile automatically when it detects a new car, instead of you clicking Apply. (Remember the session-start rule above.)</li>
-      <li><strong>Auto-save</strong> — CamKeeper saves the current live values to that car's profile automatically. Leave this off if you don't want an in-session tweak to overwrite a saved profile by accident.</li>
-    </ul>
+    <h2><span class="num">9</span>Auto-save</h2>
+    <p><strong>Auto-save my view when I leave a session</strong> is <em>on by default</em>. When you finish a session, CamKeeper writes the view you were actually using back to that car's profile — so any tweak you made on track is remembered next time, with nothing to click.</p>
+    <p>If you'd rather your saved profiles never change on their own — say you made a one-off adjustment you don't want to keep — turn it off in <strong>Settings</strong> and save manually with <strong>Save current as profile</strong> instead.</p>
+    <div class="callout"><strong>Good to know:</strong> auto-save runs when you <em>leave</em> a session, not while you're driving, and it only ever updates the car you were just in. Applying a profile is always something you choose to do before a session — CamKeeper never changes your view mid-race.</div>
   </section>
 
   <section id="startup">
