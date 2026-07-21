@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CamKeeper — User Manual</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPHJlY3QgeD0iMjQiIHk9IjI0IiB3aWR0aD0iNDY0IiBoZWlnaHQ9IjQ2NCIgcng9IjExMiIgZmlsbD0iI2Y2ZjRlZiIgc3Ryb2tlPSIjZTNkZmQ2IiBzdHJva2Utd2lkdGg9IjQiLz4KICA8ZyBmaWxsPSJub25lIiBzdHJva2U9IiMxYzFiMTkiIHN0cm9rZS13aWR0aD0iMjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+CiAgICA8cGF0aCBkPSJNMTUwIDE5NiBWMTUwIEgxOTYiLz4KICAgIDxwYXRoIGQ9Ik0zMTYgMTUwIEgzNjIgVjE5NiIvPgogICAgPHBhdGggZD0iTTE1MCAzMTYgVjM2MiBIMTk2Ii8+CiAgICA8cGF0aCBkPSJNMzE2IDM2MiBIMzYyIFYzMTYiLz4KICA8L2c+CiAgPGxpbmUgeDE9IjE2NCIgeTE9IjI4NiIgeDI9IjM0OCIgeTI9IjI4NiIgc3Ryb2tlPSIjMWMxYjE5IiBzdHJva2Utd2lkdGg9IjE2IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8Y2lyY2xlIGN4PSIyNTYiIGN5PSIyNTgiIHI9IjMwIiBmaWxsPSIjM2E1YTQ1Ii8+Cjwvc3ZnPgo=">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--paper:#f6f4ef;--card:#fffefb;--ink:#1c1b19;--sub:#5f5b54;--faint:#8f8a80;--line:#e3dfd6;--accent:#3a5a45;--accent-soft:#eef1ec;--amber:#b6893f}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',system-ui,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .mono{font-family:'IBM Plex Mono',monospace;font-size:.92em}
+  .wrap{max-width:820px;margin:0 auto;padding:0 28px}
+  nav{border-bottom:1px solid var(--line);background:var(--paper)}
+  .navbar{display:flex;align-items:center;justify-content:space-between;height:66px;max-width:820px;margin:0 auto;padding:0 28px}
+  .brand{font-family:'Fraunces',serif;font-weight:600;font-size:22px;display:flex;align-items:center;gap:9px}
+  .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;margin-bottom:2px}
+  nav .home{font-size:14.5px;color:var(--sub)}
+  header.top{padding:56px 0 30px}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
+  h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(34px,5vw,50px);line-height:1.05;letter-spacing:-.02em}
+  header.top p{margin-top:18px;font-size:18px;color:var(--sub);max-width:60ch}
+  .toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 26px;margin:34px 0}
+  .toc h2{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:14px}
+  .toc ol{list-style:none;counter-reset:t;columns:2;column-gap:36px}
+  .toc li{counter-increment:t;padding:4px 0;font-size:15px}
+  .toc li::before{content:counter(t) ". ";color:var(--faint);font-family:'IBM Plex Mono',monospace}
+  section{padding:30px 0;border-top:1px solid var(--line)}
+  section h2{font-family:'Fraunces',serif;font-weight:500;font-size:27px;letter-spacing:-.01em;margin-bottom:6px}
+  section h2 .num{color:var(--accent);font-style:italic;margin-right:10px}
+  section p{margin-top:14px;color:#33322f;font-size:16px}
+  section ul,section ol{margin:14px 0 0 22px;color:#33322f;font-size:16px}
+  section li{margin:7px 0}
+  .callout{margin-top:20px;background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:8px;padding:16px 18px;font-size:15px;color:#2c3a30}
+  .callout strong{color:var(--accent)}
+  .warn{background:#fbf3e4;border-left-color:var(--amber);color:#5c4a2c}
+  .warn strong{color:var(--amber)}
+  .kv{width:100%;border-collapse:collapse;margin-top:16px;font-size:15px}
+  .kv td{padding:9px 12px;border-top:1px solid var(--line);vertical-align:top}
+  .kv td:first-child{font-family:'IBM Plex Mono',monospace;color:var(--accent);white-space:nowrap;width:34%}
+  footer{border-top:1px solid var(--line);padding:34px 0 60px;margin-top:24px}
+  footer p{font-size:12.5px;color:var(--faint);line-height:1.7;max-width:70ch}
+  .copyright{margin-top:14px;font-size:12.5px;color:var(--faint)}
+  @media(max-width:640px){.toc ol{columns:1}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="navbar">
+    <div class="brand">CamKeeper<span class="dot"></span></div>
+    <a class="home" href="/">&larr; Back to site</a>
+  </div>
+</nav>
+
+<header class="top">
+  <div class="wrap">
+    <div class="eyebrow">User Manual</div>
+    <h1>Getting the most out of CamKeeper.</h1>
+    <p>CamKeeper saves your iRacing driving view — FOV, driver height, shift horizon, and virtual mirror — separately for every car, and puts the right one back so you never re-tune when you switch series.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#install">Installing</a></li>
+      <li><a href="#firstrun">First launch</a></li>
+      <li><a href="#window">The main window & tray</a></li>
+      <li><a href="#save">Saving a profile</a></li>
+      <li><a href="#apply">Applying a profile</a></li>
+      <li><a href="#editor">Editing offline</a></li>
+      <li><a href="#backups">Backups & restore</a></li>
+      <li><a href="#portability">Import & export</a></li>
+      <li><a href="#toggles">Auto-save & auto-apply</a></li>
+      <li><a href="#startup">Start with Windows</a></li>
+      <li><a href="#updates">Updating</a></li>
+      <li><a href="#uninstall">Uninstalling</a></li>
+      <li><a href="#faq">Troubleshooting</a></li>
+    </ol>
+  </div>
+
+  <section id="install">
+    <h2><span class="num">1</span>Installing</h2>
+    <p>CamKeeper is a single portable program — there is no installer. Download <span class="mono">CamKeeper.exe</span> and put it anywhere you like (a folder in your Documents or on your desktop is fine). Double-click it to run.</p>
+    <div class="callout warn"><strong>Windows SmartScreen:</strong> because CamKeeper is a new, unsigned app, Windows may show a "Windows protected your PC" prompt the first time. Click <em>More info &rarr; Run anyway</em>. This is expected for small independent tools and gets less frequent as the app becomes known.</div>
+  </section>
+
+  <section id="firstrun">
+    <h2><span class="num">2</span>First launch</h2>
+    <p>The first time you run CamKeeper it shows the terms of use and asks you to agree before continuing. This is a one-time step; you will only see it again if the terms change in a future version.</p>
+  </section>
+
+  <section id="window">
+    <h2><span class="num">3</span>The main window & tray</h2>
+    <p>CamKeeper runs quietly in your system tray (near the clock). Double-click the tray icon, or right-click it for the menu, to open the window.</p>
+    <p>The window shows the car iRacing currently reports, the live view values it reads from your <span class="mono">app.ini</span>, and whether the applied values match the saved profile for that car. The tray menu also lets you apply a saved profile, open the editor, view release notes, check for updates, and read the "How it works" guide.</p>
+  </section>
+
+  <section id="save">
+    <h2><span class="num">4</span>Saving a profile</h2>
+    <p>Tune a car's view in iRacing the way you like it. Then, in CamKeeper, use <strong>Save current as profile</strong> to store those values under that car. Repeat for each car you drive. Each car keeps its own profile.</p>
+  </section>
+
+  <section id="apply">
+    <h2><span class="num">5</span>Applying a profile</h2>
+    <p>Pick the car you're about to drive and choose <strong>Apply</strong>. CamKeeper writes that car's saved values into <span class="mono">app.ini</span>, ready for your next session.</p>
+    <div class="callout"><strong>Important — how iRacing reads settings:</strong> iRacing only loads <span class="mono">app.ini</span> when a session starts, and ignores changes made while you're already on track. So apply your profile <em>before</em> you join the session (while you're in the iRacing UI). It then loads with the car. Applying mid-session has no effect until the next session.</div>
+  </section>
+
+  <section id="editor">
+    <h2><span class="num">6</span>Editing offline</h2>
+    <p>The <strong>Manage Profiles</strong> editor works even when iRacing is closed. Open it to view and hand-edit any car's saved values, copy a setup from one car to a similar one as a starting point, or fix a value. Changes are written to iRacing the next time that car is applied — the editor never touches <span class="mono">app.ini</span> while you're idle.</p>
+  </section>
+
+  <section id="backups">
+    <h2><span class="num">7</span>Backups & restore</h2>
+    <p>Every time a profile is saved, CamKeeper keeps a timestamped backup (the most recent ten per car). If a value gets changed by accident, open a car's backups and restore an earlier snapshot in one click. Backups are plain, human-readable files.</p>
+  </section>
+
+  <section id="portability">
+    <h2><span class="num">8</span>Import & export</h2>
+    <p>You can export a single car's profile to a file to share it, or import one someone sends you. You can also export your entire library to one archive and import it back — handy when moving to a new PC or keeping a safe copy.</p>
+  </section>
+
+  <section id="toggles">
+    <h2><span class="num">9</span>Auto-save & auto-apply</h2>
+    <p>Two optional toggles, both off by default:</p>
+    <ul>
+      <li><strong>Auto-apply on car change</strong> — CamKeeper applies the saved profile automatically when it detects a new car, instead of you clicking Apply. (Remember the session-start rule above.)</li>
+      <li><strong>Auto-save</strong> — CamKeeper saves the current live values to that car's profile automatically. Leave this off if you don't want an in-session tweak to overwrite a saved profile by accident.</li>
+    </ul>
+  </section>
+
+  <section id="startup">
+    <h2><span class="num">10</span>Start with Windows</h2>
+    <p>Turn on <strong>Start with Windows</strong> in settings and CamKeeper will launch to the tray when you log in, ready in the background whenever you race.</p>
+  </section>
+
+  <section id="updates">
+    <h2><span class="num">11</span>Updating</h2>
+    <p>CamKeeper checks for new versions and, when one is available, tells you and asks before updating — it never replaces itself silently. You can also check manually from the tray menu. Release notes for each version are viewable in the app.</p>
+  </section>
+
+  <section id="uninstall">
+    <h2><span class="num">12</span>Uninstalling</h2>
+    <p>There's no uninstaller because there's nothing installed. To remove CamKeeper completely:</p>
+    <table class="kv">
+      <tr><td>1. Delete</td><td>the <span class="mono">CamKeeper.exe</span> file</td></tr>
+      <tr><td>2. Delete</td><td>the folder <span class="mono">%appdata%\CamKeeper</span> (paste that into the address bar of File Explorer to find it) — this holds your profiles, backups, and settings</td></tr>
+    </table>
+    <p>Your iRacing files are left exactly as they are.</p>
+  </section>
+
+  <section id="faq">
+    <h2><span class="num">13</span>Troubleshooting</h2>
+    <p><strong>My saved view didn't load.</strong> Make sure you applied the profile before joining the session — iRacing only reads the file at session start.</p>
+    <p><strong>CamKeeper shows the wrong car.</strong> Car detection can briefly lag a real car change by about a second; give it a moment.</p>
+    <p><strong>The values in CamKeeper look stale.</strong> Use the refresh in the app; CamKeeper reads <span class="mono">app.ini</span> from disk, and iRacing only writes its own changes back when it exits a session.</p>
+    <p><strong>Windows blocked the app.</strong> See the SmartScreen note under Installing — choose <em>More info &rarr; Run anyway</em>.</p>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>CamKeeper is an independent third-party utility. It is not affiliated with, endorsed by, or sponsored by iRacing.com Motorsport Simulations, LLC. "iRacing" is a trademark of its respective owner.</p>
+    <p class="copyright">© 2026 · CamKeeper</p>
+  </div>
+</footer>
+
+</body>
+</html>
