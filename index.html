@@ -186,7 +186,7 @@
 </head>
 <body>
 
-<div class="topbar"><strong>Under development</strong> — CamKeeper is in private beta testing. Public release coming soon.</div>
+<div class="topbar"><strong>Open beta</strong> — CamKeeper is free to download and try. Windows 10 / 11.</div>
 
 <nav>
   <div class="wrap navbar">
@@ -195,7 +195,8 @@
       <a href="#how">How it works</a>
       <a href="#features">Features</a>
       <a href="/manual.html">Manual</a>
-      <a href="#beta">Beta access</a>
+      <a href="/feedback.html">Feature requests</a>
+      <a href="#beta">Download</a>
       <a href="https://buymeacoffee.com/camkeeper" target="_blank" rel="noopener" class="navbmc" aria-label="Buy me a coffee" title="Buy me a coffee">
         <svg viewBox="0 0 24 24" fill="none">
           <path d="M4 8 h13 v5.5 a5.5 5.5 0 0 1 -5.5 5.5 h-2 a5.5 5.5 0 0 1 -5.5 -5.5 z" fill="#000"/>
@@ -205,17 +206,17 @@
         <span class="txt">Buy me a coffee</span>
       </a>
     </div>
-    <a href="#beta" class="btn">Request beta access</a>
+    <a href="#beta" class="btn">Download</a>
   </div>
 </nav>
 
 <header class="hero">
   <div class="wrap">
-    <div class="pill"><span class="blip"></span> Coming soon · In private beta</div>
+    <div class="pill"><span class="blip"></span> Open beta · Free download</div>
     <h1 class="serif" style="margin-top:22px">One <em>saved view</em> for every car you drive.</h1>
     <p class="lede">iRacing keeps a single set of view settings shared across your whole garage. Switch from a formula car to a GT and you re-tune FOV, seat height, and mirrors from scratch. CamKeeper remembers each car's view and puts it back for you.</p>
     <div class="cta">
-      <a href="#beta" class="btn">Request beta access</a>
+      <a href="https://github.com/jose-otero/camkeeper-site/releases/latest/download/CamKeeper.exe" class="btn">Download for Windows</a>
       <a href="#how" class="btn ghost">See how it works</a>
     </div>
     <div class="meta">Free · Windows 10 / 11 · Runs quietly in your tray</div>
@@ -332,18 +333,24 @@
 <section id="beta">
   <div class="wrap">
     <div class="beta">
-      <div class="pill" style="margin-bottom:20px"><span class="blip"></span> Not yet public</div>
-      <h2 class="serif">Get on the beta list.</h2>
-      <p class="sub">CamKeeper is still in private testing while the core is proven out on real rigs. Leave your email and you'll get an invitation code and a download link when the next round of beta spots opens up.</p>
-      <form class="signup" id="betaForm">
+      <div class="pill" style="margin-bottom:20px"><span class="blip"></span> Open beta · Free</div>
+      <h2 class="serif">Download CamKeeper.</h2>
+      <p class="sub">Free, for Windows 10 and 11. No account, installs in seconds, keeps itself up to date. It's an open beta, so expect the occasional rough edge — the in-app <strong>Report a bug</strong> button sends fixes straight to me.</p>
+      <div class="cta" style="justify-content:center;margin-top:28px;display:flex;gap:14px;flex-wrap:wrap">
+        <a class="btn" href="https://github.com/jose-otero/camkeeper-site/releases/latest/download/CamKeeper.exe">Download for Windows</a>
+        <a class="btn ghost" href="/manual.html">Read the manual</a>
+      </div>
+      <div class="fine" style="margin-top:16px">Unsigned for now, so Windows SmartScreen may flag it on first run — click <strong>More info → Run anyway</strong>. Nothing is uploaded; it runs entirely on your PC.</div>
+      <form class="signup" id="betaForm" style="margin-top:34px">
+        <div class="fine" style="margin-bottom:10px;color:var(--sub)">Want a heads-up when new versions land? (optional)</div>
         <div class="signup-row">
           <input type="email" id="betaEmail" name="email" placeholder="you@email.com" aria-label="Email address" required>
           <input type="text" name="website" id="betaHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
-          <button type="submit">Request access</button>
+          <button type="submit">Notify me</button>
         </div>
         <div class="cf-turnstile" data-sitekey="0x4AAAAAAD6FABzvDaOyqYi3" data-size="flexible"></div>
       </form>
-      <div class="fine" id="betaMsg">No spam. One email when your spot is ready — nothing else.</div>
+      <div class="fine" id="betaMsg">No spam — just the occasional update note.</div>
       <p class="freeline"><strong>Free, and staying free.</strong> No purchase, no subscription, no account. CamKeeper runs entirely on your own PC — nothing is uploaded. If it saves you time, a coffee helps keep it going — but it's never required.</p>
       <a class="bmcbtn" href="https://www.buymeacoffee.com/camkeeper" target="_blank" rel="noopener">
         <svg class="cup" viewBox="0 0 24 24" fill="none">
@@ -370,7 +377,8 @@
           <a href="#how">How it works</a>
           <a href="#features">Features</a>
           <a href="/manual.html">User manual</a>
-          <a href="#beta">Beta access</a>
+          <a href="/feedback.html">Feature requests</a>
+          <a href="#beta">Download</a>
         </div>
         <div class="col">
           <div class="h">Project</div>
@@ -412,17 +420,17 @@
       if (d && d.ok) {
         form.style.display = 'none';
         msg.textContent = d.already
-          ? "You're already on the list — we'll be in touch."
-          : "You're on the list. We'll email you when a beta spot opens.";
+          ? "You're already on the list."
+          : "You're on the list — we'll email you about new versions.";
         msg.style.color = 'var(--accent)';
       } else {
-        btn.disabled = false; btn.textContent = 'Request access';
+        btn.disabled = false; btn.textContent = 'Notify me';
         msg.textContent = (d && d.error) ? d.error : 'Something went wrong. Try again.';
         msg.style.color = '#b6893f';
         if (window.turnstile) { try { turnstile.reset(); } catch(err){} }
       }
     }).catch(function(){
-      btn.disabled = false; btn.textContent = 'Request access';
+      btn.disabled = false; btn.textContent = 'Notify me';
       msg.textContent = 'Network error. Please try again.';
       msg.style.color = '#b6893f';
       if (window.turnstile) { try { turnstile.reset(); } catch(err){} }
