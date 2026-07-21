@@ -112,6 +112,20 @@
   .row .v{font-family:'IBM Plex Mono',monospace;color:var(--ink)}
   .status{margin-top:20px;display:inline-flex;align-items:center;gap:8px;font-size:13.5px;color:var(--accent);background:var(--accent-soft);padding:7px 13px;border-radius:20px}
   .status .d{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+  .mock .mhead{display:flex;align-items:flex-end;justify-content:space-between;padding:16px 22px 10px}
+  .mock .mbrand{font-family:'Fraunces',serif;font-weight:600;font-size:22px;letter-spacing:-.01em;color:var(--ink);display:inline-flex;align-items:center;gap:7px}
+  .mock .mdot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;margin-bottom:4px}
+  .mock .mver{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--faint)}
+  .mock .macts{display:flex;gap:8px;align-items:center;padding:0 22px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .mock .mbtn{font-size:12.5px;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:7px;padding:6px 11px}
+  .mock .mstat{margin-left:auto;font-size:12.5px;color:var(--sub);display:inline-flex;align-items:center;gap:6px}
+  .mock .mstat .d2{width:7px;height:7px;border-radius:50%;background:var(--faint)}
+  .mock .mctx{margin-top:22px;display:flex;gap:9px;flex-wrap:wrap}
+  .mock .mprimary{font-size:12.5px;font-weight:500;color:#fff;background:var(--accent);border:1px solid var(--accent);border-radius:7px;padding:7px 13px}
+  .mock .mset{border-top:1px solid var(--line);padding:16px 22px 20px;background:#f3f0e9;display:flex;flex-direction:column;gap:9px}
+  .mock .mslbl{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+  .mock .mchk{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--sub)}
+  .mock .mbox{width:14px;height:14px;border:1.5px solid #cfc9bd;border-radius:4px;background:var(--card);display:inline-block}
 
   /* section scaffolding */
   section{padding:78px 0}
@@ -216,6 +230,17 @@
           <span class="close"><svg width="11" height="11" viewBox="0 0 11 11"><path d="M1.5 1.5l8 8M9.5 1.5l-8 8" stroke="currentColor" stroke-width="1"/></svg></span>
         </div>
       </div>
+      <div class="mhead">
+        <span class="mbrand">CamKeeper<span class="mdot"></span></span>
+        <span class="mver">Version 0.1.4</span>
+      </div>
+      <div class="macts">
+        <span class="mbtn">Manage profiles</span>
+        <span class="mbtn">Release notes</span>
+        <span class="mbtn">Check for updates</span>
+        <span class="mbtn">How it works</span>
+        <span class="mstat"><span class="d2"></span> iRacing: not running</span>
+      </div>
       <div class="body">
         <div class="side">
           <div class="lbl">Your cars</div>
@@ -232,7 +257,18 @@
           <div class="row"><span class="k">Shift horizon</span><span class="v">0.36</span></div>
           <div class="row"><span class="k">Virtual mirror FOV</span><span class="v">92</span></div>
           <div class="status"><span class="d"></span> Profile applied — ready for your next session</div>
+          <div class="mctx">
+            <span class="mprimary">Save current as profile</span>
+            <span class="mprimary">Apply saved profile</span>
+            <span class="mbtn">Refresh</span>
+          </div>
         </div>
+      </div>
+      <div class="mset">
+        <div class="mslbl">Settings</div>
+        <div class="mchk"><span class="mbox"></span> Start CamKeeper with Windows</div>
+        <div class="mchk"><span class="mbox"></span> Auto-save my view when I leave a session</div>
+        <div class="mchk"><span class="mbox"></span> Keep running in the tray (close/minimize hides instead of exiting)</div>
       </div>
     </div>
   </div>
