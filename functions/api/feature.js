@@ -46,7 +46,7 @@ async function sendReviewEmail(env, request, id, token, title, body) {
 <div style="font-weight:bold;font-size:16px">${safeTitle}</div>
 <div style="color:#5f5b54;font-size:14px;margin-top:8px">${safeBody || "<em>(no description)</em>"}</div>
 </div>
-<a href="${link}" style="display:inline-block;background:#3a5a45;color:#fff;text-decoration:none;padding:11px 20px;border-radius:8px;font-weight:600">Review &amp; approve / delete</a>
+<a href="${link}" style="display:inline-block;background:#2f6b45;color:#fff;text-decoration:none;padding:11px 20px;border-radius:8px;font-weight:600">Review &amp; approve / delete</a>
 <p style="color:#8f8a80;font-size:12px;margin-top:18px">You can also manage everything from the admin page (/admin.html).</p>
 </body></html>`;
   await send(env.RESEND_API_KEY, {

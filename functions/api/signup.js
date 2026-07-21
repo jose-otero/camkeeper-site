@@ -67,11 +67,11 @@ async function sendConfirmation(apiKey, to) {
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;background:#fffefb;border:1px solid #e3dfd6;border-radius:14px;overflow:hidden">
 <tr><td style="padding:26px 34px 18px 34px;border-bottom:1px solid #eee7db">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
-<td style="font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:bold;color:#1c1b19">CamKeeper<span style="color:#3a5a45">.</span></td>
+<td style="font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:bold;color:#1c1b19">CamKeeper<span style="color:#2f6b45">.</span></td>
 <td align="right" style="font-family:Arial,Helvetica,sans-serif;font-size:11px;letter-spacing:1.5px;color:#b6893f;text-transform:uppercase">Private&nbsp;Beta</td>
 </tr></table></td></tr>
 <tr><td style="padding:40px 34px 6px 34px">
-<div style="font-family:Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#3a5a45;margin-bottom:14px">You're in</div>
+<div style="font-family:Arial,Helvetica,sans-serif;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:#2f6b45;margin-bottom:14px">You're in</div>
 <div style="font-family:Georgia,'Times New Roman',serif;font-size:31px;line-height:1.12;color:#1c1b19">You're on the beta list.</div>
 </td></tr>
 <tr><td style="padding:18px 34px 4px 34px;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.65;color:#5f5b54">
@@ -79,8 +79,8 @@ async function sendConfirmation(apiKey, to) {
 <p style="margin:0 0 18px 0">It's still in private testing while the core is proven out on real rigs. When the next round of beta spots opens, we'll send you an <strong style="color:#1c1b19">invitation code</strong> and a <strong style="color:#1c1b19">download link</strong>.</p>
 </td></tr>
 <tr><td style="padding:6px 34px 6px 34px">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#eef1ec;border-radius:10px"><tr>
-<td style="padding:18px 20px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#3a5a45">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#e9f0ea;border-radius:10px"><tr>
+<td style="padding:18px 20px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#2f6b45">
 <strong>What happens next</strong><br>Nothing's needed from you — just keep an eye on your inbox. We'll reach out the moment your spot is ready.
 </td></tr></table></td></tr>
 <tr><td style="padding:22px 34px 6px 34px;font-family:Arial,Helvetica,sans-serif;font-size:13.5px;line-height:1.6;color:#8f8a80">
