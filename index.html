@@ -341,6 +341,7 @@
           <a href="#">Release notes</a>
           <a href="#">License</a>
           <a href="https://buymeacoffee.com/camkeeper" target="_blank" rel="noopener">Buy me a coffee</a>
+          <a href="#" id="openBug">Report a bug</a>
         </div>
       </div>
     </div>
@@ -389,6 +390,106 @@
       msg.textContent = 'Network error. Please try again.';
       msg.style.color = '#b6893f';
       if (window.turnstile) { try { turnstile.reset(); } catch(err){} }
+    });
+  });
+})();
+</script>
+
+<style>
+  .bugoverlay{position:fixed;inset:0;background:rgba(28,27,25,.55);display:none;align-items:flex-start;justify-content:center;padding:40px 16px;z-index:1000;overflow-y:auto}
+  .bugoverlay.open{display:flex}
+  .bugmodal{background:var(--card,#fffefb);border:1px solid var(--line,#e3dfd6);border-radius:14px;max-width:520px;width:100%;padding:28px 30px 26px;position:relative;box-shadow:0 30px 70px -30px rgba(0,0,0,.5)}
+  .bugclose{position:absolute;top:12px;right:15px;background:none;border:none;font-size:26px;line-height:1;color:var(--faint,#8f8a80);cursor:pointer}
+  .bugmodal h3{margin:6px 0 6px}
+  .bugsub{color:var(--sub,#5f5b54);font-size:14.5px;line-height:1.55;margin-bottom:6px}
+  .buglbl{display:block;font-size:13px;color:var(--sub,#5f5b54);margin:15px 0 6px;font-weight:600}
+  .bugmodal select,.bugmodal textarea,.bugmodal input[type=email]{width:100%;font:inherit;font-size:14.5px;color:var(--ink,#1c1b19);background:#fff;border:1px solid var(--line,#e3dfd6);border-radius:8px;padding:10px 12px}
+  .bugmodal textarea{resize:vertical}
+  .bugactions{margin-top:18px}
+  .bugmodal button[type=submit]{font:inherit;font-size:15px;font-weight:600;color:#fff;background:var(--accent,#3a5a45);border:none;border-radius:8px;padding:12px 22px;cursor:pointer}
+  .bugmodal button[type=submit]:disabled{opacity:.6;cursor:default}
+</style>
+
+<div class="bugoverlay" id="bugOverlay" aria-hidden="true">
+  <div class="bugmodal" role="dialog" aria-modal="true" aria-labelledby="bugTitle">
+    <button class="bugclose" id="bugClose" aria-label="Close">&times;</button>
+    <div class="sec-eyebrow">Beta feedback</div>
+    <h3 class="serif" id="bugTitle">Report a bug</h3>
+    <p class="bugsub">Tell us what went wrong. This goes straight to the developer &mdash; it is not shown publicly.</p>
+    <form id="bugForm">
+      <label class="buglbl" for="bugArea">Where did it happen? (optional)</label>
+      <select id="bugArea" name="area">
+        <option value="">&mdash; pick an area &mdash;</option>
+        <option>Detecting my car</option>
+        <option>Saving a profile</option>
+        <option>Applying a profile</option>
+        <option>Backups / import / export</option>
+        <option>Updates</option>
+        <option>The app won't start / crashes</option>
+        <option>Something else</option>
+      </select>
+      <label class="buglbl" for="bugDesc">What happened?</label>
+      <textarea id="bugDesc" name="description" rows="5" placeholder="What you did, what you expected, and what actually happened." required></textarea>
+      <label class="buglbl" for="bugContact">Your email (optional &mdash; only if you want a reply)</label>
+      <input type="email" id="bugContact" name="contact" placeholder="you@email.com" autocomplete="email">
+      <input type="text" name="website" id="bugHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+      <div id="bugTurnstile" data-sitekey="0x4AAAAAAD6FABzvDaOyqYi3" data-size="flexible" style="margin-top:16px"></div>
+      <div class="bugactions"><button type="submit" id="bugSubmit">Send report</button></div>
+      <div class="fine" id="bugMsg" style="margin-top:12px"></div>
+    </form>
+  </div>
+</div>
+
+<script>
+(function(){
+  var link = document.getElementById('openBug');
+  var overlay = document.getElementById('bugOverlay');
+  var closeBtn = document.getElementById('bugClose');
+  var form = document.getElementById('bugForm');
+  if(!overlay || !form) return;
+  var msg = document.getElementById('bugMsg');
+  var tsRendered = false, tsWidgetId = null;
+  var SITEKEY = '0x4AAAAAAD6FABzvDaOyqYi3';
+  function renderTS(){
+    if(tsRendered || !window.turnstile) return;
+    try { tsWidgetId = turnstile.render('#bugTurnstile', { sitekey: SITEKEY }); tsRendered = true; } catch(err){}
+  }
+  function resetTS(){ if(window.turnstile){ try{ tsWidgetId!==null ? turnstile.reset(tsWidgetId) : turnstile.reset(); }catch(err){} } }
+  function open(e){ if(e) e.preventDefault(); overlay.classList.add('open'); overlay.setAttribute('aria-hidden','false'); renderTS(); }
+  function close(){ overlay.classList.remove('open'); overlay.setAttribute('aria-hidden','true'); }
+  if(link) link.addEventListener('click', open);
+  if(closeBtn) closeBtn.addEventListener('click', close);
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) close(); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var desc = (document.getElementById('bugDesc').value||'').trim();
+    var area = document.getElementById('bugArea').value;
+    var contact = (document.getElementById('bugContact').value||'').trim();
+    var hp = document.getElementById('bugHp').value;
+    var btn = document.getElementById('bugSubmit');
+    if(desc.length < 5){ msg.textContent='Please add a bit more detail.'; msg.style.color='#b6893f'; return; }
+    var tokenEl = form.querySelector('[name="cf-turnstile-response"]');
+    var token = tokenEl ? tokenEl.value : '';
+    if(!token){ msg.textContent='Give the verification a moment to finish, then try again.'; msg.style.color='#b6893f'; return; }
+    btn.disabled=true; btn.textContent='Sending…';
+    fetch('/api/bug', {
+      method:'POST', headers:{'content-type':'application/json'},
+      body: JSON.stringify({ description:desc, area:area, contact:contact, os:navigator.userAgent, website:hp, cfToken:token })
+    }).then(function(r){return r.json();}).then(function(d){
+      if(d && d.ok){
+        form.style.display='none';
+        msg.textContent = "Thank you — your report was filed" + (d.number ? " (#"+d.number+")" : "") + ". We appreciate it.";
+        msg.style.color='var(--accent)';
+      } else {
+        btn.disabled=false; btn.textContent='Send report';
+        msg.textContent = (d && d.error) ? d.error : 'Something went wrong. Try again.';
+        msg.style.color='#b6893f'; resetTS();
+      }
+    }).catch(function(){
+      btn.disabled=false; btn.textContent='Send report';
+      msg.textContent='Network error. Please try again.';
+      msg.style.color='#b6893f'; resetTS();
     });
   });
 })();
